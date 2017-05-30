@@ -22,5 +22,8 @@
     "karma": "^1.7.0",
     "karma-chrome-launcher": "^2.1.1",
     "karma-jasmine": "^1.1.0"
+  },
+  "dependencies": {
+    "underscore": "^1.8.3"
   }
 }
