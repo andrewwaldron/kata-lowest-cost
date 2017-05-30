@@ -1,0 +1,19 @@
+{
+  "name": "lowest-cost-kata",
+  "version": "1.0.0",
+  "description": "Lowest Cost Across An NxM Matrix",
+  "main": "kata.js",
+  "scripts": {
+    "test": "karma start"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/goopyjava/lowest-cost-kata.git"
+  },
+  "author": "Andrew Waldron",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/goopyjava/lowest-cost-kata/issues"
+  },
+  "homepage": "https://github.com/goopyjava/lowest-cost-kata#readme"
+}
