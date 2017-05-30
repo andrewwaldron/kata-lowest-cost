@@ -11,11 +11,6 @@ var kata = (function() {
       });
     }
 
-
-    // cost:
-    //    {cost: 2, path: [2]}
-    //    {cost: 1: path: [1]}
-
     return calculateResultFromCost(costMatrix);
   }
 
