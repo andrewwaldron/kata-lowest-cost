@@ -4,7 +4,7 @@
   "description": "Lowest Cost Across An NxM Matrix",
   "main": "kata.js",
   "scripts": {
-    "test": "karma start"
+    "test": "./node_modules/karma/bin/karma start"
   },
   "repository": {
     "type": "git",
@@ -15,5 +15,12 @@
   "bugs": {
     "url": "https://github.com/goopyjava/lowest-cost-kata/issues"
   },
-  "homepage": "https://github.com/goopyjava/lowest-cost-kata#readme"
+  "homepage": "https://github.com/goopyjava/lowest-cost-kata#readme",
+  "devDependencies": {
+    "jasmine": "^2.6.0",
+    "jasmine-core": "^2.6.2",
+    "karma": "^1.7.0",
+    "karma-chrome-launcher": "^2.1.1",
+    "karma-jasmine": "^1.1.0"
+  }
 }
