@@ -25,6 +25,15 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [1]);
   });
 
+  it('can step across the matrix in a straight line', function() {
+    var testMatrix = [
+      [2, 2],
+      [1, 1]
+    ];
+
+    expectPath(solve(testMatrix), [1, 1]);
+  });
+
   function expectSolved(result, expected) {
     expect(result.finishedMatrix).toEqual(expected);
   }
