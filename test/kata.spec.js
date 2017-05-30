@@ -6,17 +6,38 @@ describe('lowest.cost.kata', function() {
   });
 
   it('will let us know whether or not it finishes the matrix', function() {
-    var result = subject.solveMatrix([[1]]);
-    expect(result.finishedMatrix).toEqual(true);
+    var testMatrix = [[1]];
+    expectSolved(solve(testMatrix), true);
   });
 
   it('returns the total cost', function() {
-    var result = subject.solveMatrix([[1]]);
-    expect(result.totalCost).toEqual(1);
+    var testMatrix = [[1]];
+    expectCost(solve(testMatrix), 1);
   });
 
   it('also returns an array with the path it took', function() {
-    var result = subject.solveMatrix([[1]]);
-    expect(result.shortestPath).toEqual([1]);
+    var testMatrix = [[1]];
+    expectPath(solve(testMatrix), [1]);
   });
+
+  it('can handle a matrix with more than one row', function() {
+    var testMatrix = [[2], [1]];
+    expectPath(solve(testMatrix), [2]);
+  });
+
+  function expectSolved(result, expected) {
+    expect(result.finishedMatrix).toEqual(expected);
+  }
+
+  function expectPath(result, expected) {
+    expect(result.shortestPath).toEqual(expected);
+  }
+
+  function expectCost(result, expected) {
+    expect(result.totalCost).toEqual(expected);
+  }
+
+  function solve(matrix) {
+    return subject.solveMatrix(matrix);
+  }
 });
