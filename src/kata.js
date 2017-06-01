@@ -53,7 +53,7 @@ var kata = (function() {
       row: row
     };
 
-    return carryPreviousForwardIfAboveMaximum(getBestCost([
+    return carryPreviousForwardIfAboveMaximum(getBestCostForLongestPath([
       moveDirection('across', movementState),
       moveDirection('down', movementState),
       moveDirection('up', movementState)
@@ -71,6 +71,7 @@ var kata = (function() {
     if (representsMaximizedPath(possiblePreviousCell, movementState)) {
        return {
         cost: maximumSolveCriteria + 1,
+        path: [],
         previous: possiblePreviousCell
       };
     }
@@ -93,7 +94,7 @@ var kata = (function() {
   }
 
   function calculateResultFromCost(costs, columnCount) {
-    var minCost = getBestCost(costs);
+    var minCost = getBestCostForLongestPath(costs);
 
     return {
       finishedMatrix: minCost.path.length === columnCount,
@@ -106,8 +107,9 @@ var kata = (function() {
     return _.map(path, function (row) { return row + 1; });
   }
 
-  function getBestCost(costs) {
-    return _.min(costs, function (cost) { return cost.cost === unsolveable ? maximumSolveCriteria + 1 : cost.cost; });
+  function getBestCostForLongestPath(costs) {
+    var longestPath = _.max(_.map(costs, function(cost) { return cost.path.length; }));
+    return _.min(costs, function (cost) { return cost.path.length !== longestPath ? maximumSolveCriteria + 1 : cost.cost; });
   }
 
   return {

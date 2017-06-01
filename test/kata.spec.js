@@ -75,19 +75,19 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [3, 1, 2, 3]);
   });
 
-  xit('will go ahead and let us know when it reaches 50', function() {
+  it('will go ahead and let us know when it reaches 50', function() {
     var testMatrix = getUnsolveableMatrix();
     expectSolved(solve(testMatrix), false);
   });
 
-  xit('will give an empty path for the unsolved', function() {
+  it('will give whatever best AND LONGEST path it could for the unsolved', function() {
     var testMatrix = getUnsolveableMatrix();
-    expectPath(solve(testMatrix), []);
+    expectPath(solve(testMatrix), [4, 1]);
   });
 
-  xit('will also set the total cost to 0 for something unsolveable', function() {
+  it('will also set the total cost to 50 for something unsolveable', function() {
     var testMatrix = getUnsolveableMatrix();
-    expectCost(solve(testMatrix), 0);
+    expectCost(solve(testMatrix), 50);
   });
 
   it('solves the first actual kata problem provided', function() {
@@ -148,10 +148,10 @@ describe('lowest.cost.kata', function() {
 
   function getUnsolveableMatrix() {
     return [
-      [10, 10, 40, 1],
-      [10, 10, 40, 1],
-      [10, 10, 40, 1],
-      [10, 10, 40, 1]
+      [11, 40, 1, 1],
+      [11, 40, 1, 1],
+      [11, 42, 1, 1],
+      [10, 43, 1, 1]
     ];
   }
 
