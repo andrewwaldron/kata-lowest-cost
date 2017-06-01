@@ -1,5 +1,9 @@
 var kata = (function() {
-  var directions = { across: goAcross, up: goUp, down: goDown };
+  var directions = {
+    across: function(row, max) { return row; },
+    up: function(row, max) { return row - 1 < 0 ? max - 1 : row - 1; },
+    down: function(row, max) { return row + 1 >= max ? 0 : row + 1; }
+  };
 
   function solveMatrix(originalMatrix) {
     var costMatrix = [];
@@ -44,18 +48,6 @@ var kata = (function() {
       cost: possiblePreviousCell.cost + movementState.nextStepCost,
       path: addStep(possiblePreviousCell.path, movementState.row)
     };
-  }
-
-  function goAcross(row, numberOfRows) {
-    return row;
-  }
-
-  function goUp(row, numberOfRows) {
-    return row - 1 < 0 ? numberOfRows - 1 : row - 1;
-  }
-
-  function goDown(row, numberOfRows) {
-    return row + 1 >= numberOfRows ? 0 : row + 1;
   }
 
   function addStep(path, row) {
