@@ -1,4 +1,6 @@
 var kata = (function() {
+  var directions = { across: goAcross, up: goUp, down: goDown };
+
   function solveMatrix(originalMatrix) {
     var costMatrix = [];
 
@@ -24,16 +26,16 @@ var kata = (function() {
     var nextStepCost = originalMatrix[row][column];
 
     var threeMoveOptions = [
-      moveAcross(previousCosts, nextStepCost, row),
-      moveDown(previousCosts, nextStepCost, row),
-      moveUp(previousCosts, nextStepCost, row)
+      moveDirection('across', previousCosts, nextStepCost, row),
+      moveDirection('down', previousCosts, nextStepCost, row),
+      moveDirection('up', previousCosts, nextStepCost, row)
     ];
-    
+
     return getBestCost(threeMoveOptions);
   }
 
-  function moveUp(previousCosts, nextStepCost, currentCellRow) {
-    var previousIndex = goUp(currentCellRow, previousCosts.length);
+  function moveDirection(direction, previousCosts, nextStepCost, currentCellRow) {
+    var previousIndex = directions[direction](currentCellRow, previousCosts.length);
     var possiblePreviousCell = previousCosts[previousIndex];
 
     return {
@@ -42,24 +44,8 @@ var kata = (function() {
     };
   }
 
-  function moveDown(previousCosts, nextStepCost, currentCellRow) {
-    var previousIndex = goDown(currentCellRow, previousCosts.length);
-    var possiblePreviousCell = previousCosts[previousIndex];
-
-    return {
-      cost: possiblePreviousCell.cost + nextStepCost,
-      path: addStep(possiblePreviousCell.path, currentCellRow)
-    };
-  }
-
-  function moveAcross(previousCosts, nextStepCost, currentCellRow) {
-    var previousIndex = currentCellRow;
-    var cellDirectlyLeft = previousCosts[previousIndex];
-
-    return {
-      cost: cellDirectlyLeft.cost + nextStepCost,
-      path: addStep(cellDirectlyLeft.path, currentCellRow)
-    };
+  function goAcross(row, numberOfRows) {
+    return row;
   }
 
   function goUp(row, numberOfRows) {
