@@ -10,8 +10,10 @@ var kata = (function() {
     }
 
     for (var column = 1; column < originalMatrix[0].length; column++) {
+      var lastColumnsCost = costMatrix.slice();
+
       for (var row = 0; row < originalMatrix.length; row++) {
-        costMatrix = calculateNextStep(originalMatrix, column, row, costMatrix);        
+        costMatrix[row] = calculateNextStep(originalMatrix, column, row, lastColumnsCost);        
       }
     }
 
@@ -24,10 +26,20 @@ var kata = (function() {
       path: addStep(costMatrix[row].path, row)
     };
 
+    var moveDown = {
+      cost: costMatrix[goDown(row)].cost + originalMatrix[row][column - 1],
+      path: addStep(costMatrix[row].path, goDown(row))
+    };
 
-    var costClone = costMatrix.slice();
-    costClone.splice(row, 1, moveAcross);
-    return costClone;
+    if (moveDown.cost < moveAcross.cost) {
+      return moveDown;
+    } else {
+      return moveAcross;
+    }
+  }
+
+  function goDown(row) {
+    return row - 1 < 0 ? 0 : row - 1;
   }
 
   function addStep(path, row) {

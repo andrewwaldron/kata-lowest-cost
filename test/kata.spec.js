@@ -34,6 +34,15 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [1, 1]);
   });
 
+  it('can move down the matrix', function() {
+    var testMatrix = [
+      [1, 2],
+      [2, 1]
+    ];
+
+    expectPath(solve(testMatrix), [0, 1]);
+  });
+  
   function expectSolved(result, expected) {
     expect(result.finishedMatrix).toEqual(expected);
   }
