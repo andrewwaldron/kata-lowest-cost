@@ -5,18 +5,22 @@ var kata = (function() {
     down: function(row, max) { return row + 1 >= max ? 0 : row + 1; }
   };
 
-  function solveMatrix(originalMatrix) {
-    var costMatrix = getCostsOfFirstColumn(originalMatrix);
+  function solveMatrix(matrix) {
+    var firstColumnCost = getCostsOfFirstColumn(matrix);
+    var finalCosts = getCostsOfEachColumnSequentially(firstColumnCost, matrix);
+    return calculateResultFromCost(finalCosts);
+  }
 
-    for (var column = 1; column < originalMatrix[0].length; column++) {
+  function getCostsOfEachColumnSequentially(firstColumnCost, matrix) {
+    var costMatrix = firstColumnCost;
+    for (var column = 1; column < matrix[0].length; column++) {
       var lastColumnsCost = costMatrix.slice();
 
-      for (var row = 0; row < originalMatrix.length; row++) {
-        costMatrix[row] = calculateNextStep(originalMatrix, column, row, lastColumnsCost);        
+      for (var row = 0; row < matrix.length; row++) {
+        costMatrix[row] = calculateNextStep(matrix, column, row, lastColumnsCost);        
       }
     }
-
-    return calculateResultFromCost(costMatrix);
+    return costMatrix;
   }
 
   function getCostsOfFirstColumn(matrix) {
@@ -24,10 +28,7 @@ var kata = (function() {
   }
 
   function asCost(cost, row) {
-    return {
-      cost: cost,
-      path: [row]
-    };
+    return { cost: cost, path: [row] };
   }
 
   function calculateNextStep(originalMatrix, column, row, previousCosts) {
