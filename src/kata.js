@@ -15,7 +15,7 @@ var kata = (function() {
 
   function getCostsOfEachColumnSequentially(firstColumnCost, matrix) {
     var costMatrix = firstColumnCost;
-    
+
     for (var column = 1; column < matrix[0].length && !allAreUnsolved(costMatrix); column++) {
       costMatrix = getColumnCost(matrix, column, costMatrix);
     }
@@ -82,8 +82,12 @@ var kata = (function() {
     return {
       finishedMatrix: completed,
       totalCost: completed ? minCost.cost : 0,
-      shortestPath: completed ? minCost.path : []
+      shortestPath: completed ? makeIndexesOneBased(minCost.path) : []
     };
+  }
+
+  function makeIndexesOneBased(path) {
+    return _.map(path, function (el) { return el + 1; });
   }
 
   function getBestCost(costs) {
