@@ -66,21 +66,23 @@ var kata = (function() {
 
   function moveDirection(direction, movementState) {
     var previousIndex = directions[direction](movementState.row, movementState.previousCosts.length);
-    var possiblePreviousCell = movementState.previousCosts[previousIndex];
+    var previous = movementState.previousCosts[previousIndex];
 
-    if (representsMaximizedPath(possiblePreviousCell, movementState)) {
-       return {
-        cost: maximumSolveCriteria + 1,
-        path: [],
-        previous: possiblePreviousCell
-      };
-    }
+    return representsMaximizedPath(previous, movementState) ?
+       forceCarryOverPreviousValue(previous) :
+       applyMovement(previous, movementState);
+  }
 
+  function applyMovement(previous, movementState) {
     return {
-      cost: possiblePreviousCell.cost + movementState.nextStepCost,
-      path: addStep(possiblePreviousCell.path, movementState.row),
-      previous: possiblePreviousCell
+      cost: previous.cost + movementState.nextStepCost,
+      path: addStep(previous.path, movementState.row),
+      previous: previous
     };
+  }
+
+  function forceCarryOverPreviousValue(previous) {
+    return { cost: maximumSolveCriteria + 1, path: [], previous: previous };
   }
 
   function representsMaximizedPath(cost, movementState) {
