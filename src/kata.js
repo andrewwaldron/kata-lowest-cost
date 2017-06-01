@@ -22,7 +22,9 @@ var kata = (function() {
         costMatrix[row] = checkIfUnsolved(possibleNextStep);
       }
 
-      if (allAreUnsolved(costMatrix)) break;
+      if (allAreUnsolved(costMatrix)) {
+        break;
+      }
     }
 
     return costMatrix;
@@ -33,7 +35,7 @@ var kata = (function() {
   }
 
   function checkIfUnsolved(cost) {
-    return cost.cost > maximumSolveCriteria ? _.extend({cost: unsolveable}, cost) : cost;
+    return cost.cost > maximumSolveCriteria ? _.extend(cost, {cost: unsolveable}) : cost;
   }
 
   function getCostsOfFirstColumn(matrix) {
@@ -76,17 +78,17 @@ var kata = (function() {
 
   function calculateResultFromCost(costs) {
     var minCost = getBestCost(costs);
-    var wasFinished = minCost.cost <= maximumSolveCriteria;
+    var completed = minCost.cost !== unsolveable;
 
     return {
-      finishedMatrix: wasFinished,
-      totalCost: wasFinished ? minCost.cost : 0,
-      shortestPath: wasFinished ? minCost.path : []
+      finishedMatrix: completed,
+      totalCost: completed ? minCost.cost : 0,
+      shortestPath: completed ? minCost.path : []
     };
   }
 
   function getBestCost(costs) {
-    return _.min(costs, function (cost) { return cost.cost === unsolveable ? maximumSolveCriteria : cost.cost; });
+    return _.min(costs, function (cost) { return cost.cost === unsolveable ? maximumSolveCriteria + 1 : cost.cost; });
   }
 
   return {
