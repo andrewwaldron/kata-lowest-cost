@@ -6,14 +6,7 @@ var kata = (function() {
   };
 
   function solveMatrix(originalMatrix) {
-    var costMatrix = [];
-
-    for (var row = 0; row < originalMatrix.length; row++) {
-      costMatrix.push({
-        cost: originalMatrix[row][0],
-        path: [row]
-      });
-    }
+    var costMatrix = getCostsOfFirstColumn(originalMatrix);
 
     for (var column = 1; column < originalMatrix[0].length; column++) {
       var lastColumnsCost = costMatrix.slice();
@@ -24,6 +17,17 @@ var kata = (function() {
     }
 
     return calculateResultFromCost(costMatrix);
+  }
+
+  function getCostsOfFirstColumn(matrix) {
+    return _.map(matrix, function (matrixRow, row) { return asCost(matrixRow[0], row); });
+  }
+
+  function asCost(cost, row) {
+    return {
+      cost: cost,
+      path: [row]
+    };
   }
 
   function calculateNextStep(originalMatrix, column, row, previousCosts) {
