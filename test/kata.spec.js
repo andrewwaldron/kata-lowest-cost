@@ -42,7 +42,7 @@ describe('lowest.cost.kata', function() {
 
     expectPath(solve(testMatrix), [0, 1]);
   });
-  
+
   function expectSolved(result, expected) {
     expect(result.finishedMatrix).toEqual(expected);
   }
