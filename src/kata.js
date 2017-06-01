@@ -80,8 +80,8 @@ var kata = (function() {
 
     return {
       finishedMatrix: wasFinished,
-      totalCost: minCost.cost,
-      shortestPath: minCost.path
+      totalCost: wasFinished ? minCost.cost : 0,
+      shortestPath: wasFinished ? minCost.path : []
     };
   }
 

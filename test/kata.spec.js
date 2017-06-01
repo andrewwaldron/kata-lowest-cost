@@ -66,17 +66,28 @@ describe('lowest.cost.kata', function() {
   });
 
   it('will go ahead and let us know when it reaches 50', function() {
-    var testMatrix = [
+    var testMatrix = getUnsolveableMatrix();
+    expectSolved(solve(testMatrix), false);
+  });
+
+  it('will give an empty path for the unsolved', function() {
+    var testMatrix = getUnsolveableMatrix();
+    expectPath(solve(testMatrix), []);
+  });
+
+  it('will also set the total cost to 0 for something unsolveable', function() {
+    var testMatrix = getUnsolveableMatrix();
+    expectCost(solve(testMatrix), 0);
+  });
+
+  function getUnsolveableMatrix() {
+    return [
       [10, 10, 40, 1],
       [10, 10, 40, 1],
       [10, 10, 40, 1],
       [10, 10, 40, 1]
     ];
-
-    expectSolved(solve(testMatrix), false);
-    // expectPath(solve(testMatrix), [-1]);
-  });
-  
+  }
 
   function expectSolved(result, expected) {
     expect(result.finishedMatrix).toEqual(expected);
