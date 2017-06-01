@@ -20,27 +20,35 @@ var kata = (function() {
     return calculateResultFromCost(costMatrix);
   }
 
-  function calculateNextStep(originalMatrix, column, row, costOfPreviousColumn) {
-    var costOfTheNextCell = originalMatrix[row][column];
+  function calculateNextStep(originalMatrix, column, row, previousCosts) {
+    var nextStepCost = originalMatrix[row][column];
 
-    var cellDirectlyLeft = costOfPreviousColumn[row];
-    var moveAcross = {
-      cost: cellDirectlyLeft.cost + costOfTheNextCell,
-      path: addStep(cellDirectlyLeft.path, row)
-    };
+    var fromAcross = moveAcross(previousCosts, nextStepCost, row);
+    var fromDown = moveDown(previousCosts, nextStepCost, row);
 
-    var downRowIndex = goDown(row, originalMatrix.length);
-    var cellDownAndLeft = costOfPreviousColumn[downRowIndex];
-    var moveDown = {
-      cost: cellDownAndLeft.cost + costOfTheNextCell,
-      path: addStep(cellDownAndLeft.path, row)
-    };
-
-    if (moveDown.cost < moveAcross.cost) {
-      return moveDown;
+    if (fromDown.cost < fromAcross.cost) {
+      return fromDown;
     } else {
-      return moveAcross;
+      return fromAcross;
     }
+  }
+
+  function moveDown(previousCosts, nextStepCost, currentCellRow) {
+    var downRowIndex = goDown(currentCellRow, previousCosts.length);
+    var cellDownAndLeft = previousCosts[downRowIndex];
+
+    return {
+      cost: cellDownAndLeft.cost + nextStepCost,
+      path: addStep(cellDownAndLeft.path, currentCellRow)
+    };
+  }
+
+  function moveAcross(previousCosts, nextStepCost, currentCellRow) {
+    var cellDirectlyLeft = previousCosts[currentCellRow];
+    return {
+      cost: cellDirectlyLeft.cost + nextStepCost,
+      path: addStep(cellDirectlyLeft.path, currentCellRow)
+    };
   }
 
   function goDown(row, numberOfRows) {
