@@ -87,7 +87,7 @@ var kata = (function() {
   }
 
   function makeIndexesOneBased(path) {
-    return _.map(path, function (el) { return el + 1; });
+    return _.map(path, function (row) { return row + 1; });
   }
 
   function getBestCost(costs) {
