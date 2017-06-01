@@ -54,6 +54,30 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [0, 1, 2]);
   });
 
+  it('can find a really complicated path', function() {
+    var testMatrix = [
+      [12, 2, 23, 20],
+      [2, 10, 2, 11],
+      [2, 3, 34, 10],
+      [1, 5, 10, 1]
+    ];
+
+    expectPath(solve(testMatrix), [3, 0, 3, 3]);
+  });
+
+  it('will go ahead and let us know when it reaches 50', function() {
+    var testMatrix = [
+      [10, 10, 40, 1],
+      [10, 10, 40, 1],
+      [10, 10, 40, 1],
+      [10, 10, 40, 1]
+    ];
+
+    expectSolved(solve(testMatrix), false);
+    // expectPath(solve(testMatrix), [-1]);
+  });
+  
+
   function expectSolved(result, expected) {
     expect(result.finishedMatrix).toEqual(expected);
   }
