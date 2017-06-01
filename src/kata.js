@@ -23,24 +23,26 @@ var kata = (function() {
   }
 
   function calculateNextStep(originalMatrix, column, row, previousCosts) {
-    var nextStepCost = originalMatrix[row][column];
+    var movementState = {
+      previousCosts: previousCosts,
+      nextStepCost: originalMatrix[row][column],
+      row: row
+    };
 
-    var threeMoveOptions = [
-      moveDirection('across', previousCosts, nextStepCost, row),
-      moveDirection('down', previousCosts, nextStepCost, row),
-      moveDirection('up', previousCosts, nextStepCost, row)
-    ];
-
-    return getBestCost(threeMoveOptions);
+    return getBestCost([
+      moveDirection('across', movementState),
+      moveDirection('down', movementState),
+      moveDirection('up', movementState)
+    ]);
   }
 
-  function moveDirection(direction, previousCosts, nextStepCost, currentCellRow) {
-    var previousIndex = directions[direction](currentCellRow, previousCosts.length);
-    var possiblePreviousCell = previousCosts[previousIndex];
+  function moveDirection(direction, movementState) {
+    var previousIndex = directions[direction](movementState.row, movementState.previousCosts.length);
+    var possiblePreviousCell = movementState.previousCosts[previousIndex];
 
     return {
-      cost: possiblePreviousCell.cost + nextStepCost,
-      path: addStep(possiblePreviousCell.path, currentCellRow)
+      cost: possiblePreviousCell.cost + movementState.nextStepCost,
+      path: addStep(possiblePreviousCell.path, movementState.row)
     };
   }
 
