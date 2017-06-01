@@ -23,32 +23,47 @@ var kata = (function() {
   function calculateNextStep(originalMatrix, column, row, previousCosts) {
     var nextStepCost = originalMatrix[row][column];
 
-    var fromAcross = moveAcross(previousCosts, nextStepCost, row);
-    var fromDown = moveDown(previousCosts, nextStepCost, row);
+    var threeMoveOptions = [
+      moveAcross(previousCosts, nextStepCost, row),
+      moveDown(previousCosts, nextStepCost, row),
+      moveUp(previousCosts, nextStepCost, row)
+    ];
+    
+    return getBestCost(threeMoveOptions);
+  }
 
-    if (fromDown.cost < fromAcross.cost) {
-      return fromDown;
-    } else {
-      return fromAcross;
-    }
+  function moveUp(previousCosts, nextStepCost, currentCellRow) {
+    var previousIndex = goUp(currentCellRow, previousCosts.length);
+    var possiblePreviousCell = previousCosts[previousIndex];
+
+    return {
+      cost: possiblePreviousCell.cost + nextStepCost,
+      path: addStep(possiblePreviousCell.path, currentCellRow)
+    };
   }
 
   function moveDown(previousCosts, nextStepCost, currentCellRow) {
-    var downRowIndex = goDown(currentCellRow, previousCosts.length);
-    var cellDownAndLeft = previousCosts[downRowIndex];
+    var previousIndex = goDown(currentCellRow, previousCosts.length);
+    var possiblePreviousCell = previousCosts[previousIndex];
 
     return {
-      cost: cellDownAndLeft.cost + nextStepCost,
-      path: addStep(cellDownAndLeft.path, currentCellRow)
+      cost: possiblePreviousCell.cost + nextStepCost,
+      path: addStep(possiblePreviousCell.path, currentCellRow)
     };
   }
 
   function moveAcross(previousCosts, nextStepCost, currentCellRow) {
-    var cellDirectlyLeft = previousCosts[currentCellRow];
+    var previousIndex = currentCellRow;
+    var cellDirectlyLeft = previousCosts[previousIndex];
+
     return {
       cost: cellDirectlyLeft.cost + nextStepCost,
       path: addStep(cellDirectlyLeft.path, currentCellRow)
     };
+  }
+
+  function goUp(row, numberOfRows) {
+    return row - 1 < 0 ? numberOfRows - 1 : row - 1;
   }
 
   function goDown(row, numberOfRows) {
@@ -62,13 +77,17 @@ var kata = (function() {
   }
 
   function calculateResultFromCost(costs) {
-    var minCost = _.min(costs, function (cost) { return cost.cost; });
+    var minCost = getBestCost(costs);
 
     return {
       finishedMatrix: true,
       totalCost: minCost.cost,
       shortestPath: minCost.path
     };
+  }
+
+  function getBestCost(costs) {
+    return _.min(costs, function (cost) { return cost.cost; });
   }
 
   return {

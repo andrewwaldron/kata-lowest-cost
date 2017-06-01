@@ -34,13 +34,24 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [1, 1]);
   });
 
-  it('can move down the matrix', function() {
+  it('can move down the matrix with wrapping', function() {
     var testMatrix = [
       [1, 2],
       [2, 1]
     ];
 
     expectPath(solve(testMatrix), [0, 1]);
+  });
+
+  it('can move down the matrix', function() {
+    var testMatrix = [
+      [1, 2, 2],
+      [2, 1, 2],
+      [2, 2, 1],
+      [1, 2, 2]
+    ];
+
+    expectPath(solve(testMatrix), [0, 1, 2]);
   });
 
   function expectSolved(result, expected) {
