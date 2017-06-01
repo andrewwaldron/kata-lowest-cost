@@ -15,26 +15,25 @@ var kata = (function() {
 
   function getCostsOfEachColumnSequentially(firstColumnCost, matrix) {
     var costMatrix = firstColumnCost;
-    for (var column = 1; column < matrix[0].length; column++) {
-      var lastColumnsCost = costMatrix.slice();
-      for (var row = 0; row < matrix.length; row++) {
-        var possibleNextStep = calculateNextStep(matrix, column, row, lastColumnsCost);
-        costMatrix[row] = checkIfUnsolved(possibleNextStep);
-      }
-
-      if (allAreUnsolved(costMatrix)) {
-        break;
-      }
+    
+    for (var column = 1; column < matrix[0].length && !allAreUnsolved(costMatrix); column++) {
+      costMatrix = getColumnCost(matrix, column, costMatrix);
     }
 
     return costMatrix;
+  }
+
+  function getColumnCost(matrix, column, previousColumnCost) {
+    return _.map(matrix, function(el, row) {
+      return calculateNextStep(matrix, column, row, previousColumnCost);
+    });
   }
 
   function allAreUnsolved(costs) {
     return _.all(costs, function(cost) { return cost.cost === unsolveable; });
   }
 
-  function checkIfUnsolved(cost) {
+  function killPathIfAboveMaximum(cost) {
     return cost.cost > maximumSolveCriteria ? _.extend(cost, {cost: unsolveable}) : cost;
   }
 
@@ -53,11 +52,11 @@ var kata = (function() {
       row: row
     };
 
-    return getBestCost([
+    return killPathIfAboveMaximum(getBestCost([
       moveDirection('across', movementState),
       moveDirection('down', movementState),
       moveDirection('up', movementState)
-    ]);
+    ]));
   }
 
   function moveDirection(direction, movementState) {

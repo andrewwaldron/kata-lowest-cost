@@ -65,6 +65,16 @@ describe('lowest.cost.kata', function() {
     expectPath(solve(testMatrix), [3, 0, 3, 3]);
   });
 
+  it('does ok with a non-square matrix', function() {
+    var testMatrix = [
+      [12, 2, 23, 20],
+      [2, 10, 2, 11],
+      [1, 5, 10, 1]
+    ];
+
+    expectPath(solve(testMatrix), [2, 0, 1, 2]);
+  });
+
   it('will go ahead and let us know when it reaches 50', function() {
     var testMatrix = getUnsolveableMatrix();
     expectSolved(solve(testMatrix), false);
